@@ -63,4 +63,4 @@ def create_directory_view():
     return redirect(url_for("files_list_view", directory=directory))
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", 8080, debug=True)
+    app.run("0.0.0.0", 8080, debug=True)
