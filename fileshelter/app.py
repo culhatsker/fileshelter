@@ -52,7 +52,15 @@ def upload_view(directory):
         raise Exception("Can't access " + saveto)
     file.save(saveto)
     return redirect(url_for("files_list_view", directory=directory))
-    
+
+@app.route("/internal/create_directory", methods=["POST"])
+def create_directory_view():
+    directory = request.form["directory"]
+    absdir = os.path.abspath(os.path.join(files_dir, directory))
+    if not absdir.startswith(files_dir):
+        raise Exception("Can't access this path")
+    os.makedirs(absdir)
+    return redirect(url_for("files_list_view", directory=directory))
 
 if __name__ == "__main__":
     app.run("127.0.0.1", 8080, debug=True)

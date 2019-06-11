@@ -6,27 +6,34 @@
 
 <div class="card">
     <div class="card-body">
-        {% if path != '' %}
-        <a href="{{ url_for('files_list_view', directory=normpath(join(path, '..'))) }}">
-            .. (Upper directory)
-        </a>
-        {% endif %}
-        <form action="{{ url_for('upload_view', directory=path) }}" method="post" enctype="multipart/form-data" style="display: inline-block">
+        <form action="{{ url_for('upload_view', directory=path) }}" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit" value="send nudes" />
         </form>
-        <!-- TODO: <form style="display: inline-block">
+        <form action="{{ url_for('create_directory_view', directory=path) }}" method="post">
+            <input type="text" name="directory" placeholder="directory name"/>
             <input type="submit" value="create directory" />
-        </form> -->
+        </form>
     </div>
 </div>
+{% if path != '' %}
+<div class="card">
+    <div class="card-body">
+        <a href="{{ url_for('files_list_view', directory=normpath(join(path, '..'))) }}">
+            <img class="file-icon" src="{{ url_for('static', filename='upper_dir_icon.png') }}" /> Upper directory
+        </a>
+    </div>
+</div>
+{% endif %}
 {% for file in files %}
 <div class="card">
     <div class="card-body">
         {% if not file.directory %}
         <a href="{{ url_for('download_view', filepath=join(path, file.name)) }}">
+            <img class="file-icon" src="{{ url_for('static', filename='file_icon.png') }}" />
         {% else %}
         <a href="{{ url_for('files_list_view', directory=join(path, file.name)) }}">
+            <img class="file-icon" src="{{ url_for('static', filename='folder_icon.png') }}" />
         {% endif %}
             {{ file.name }}
         </a>
