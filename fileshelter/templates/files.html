@@ -1,0 +1,37 @@
+{% extends "common.html" %}
+
+{% block title %}Files - Fileshelter{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        {% if path != '' %}
+        <a href="{{ url_for('files_list_view', directory=normpath(join(path, '..'))) }}">
+            .. (Upper directory)
+        </a>
+        {% endif %}
+        <form action="{{ url_for('upload_view', directory=path) }}" method="post" enctype="multipart/form-data" style="display: inline-block">
+            <input type="file" name="file" />
+            <input type="submit" value="send nudes" />
+        </form>
+        <!-- TODO: <form style="display: inline-block">
+            <input type="submit" value="create directory" />
+        </form> -->
+    </div>
+</div>
+{% for file in files %}
+<div class="card">
+    <div class="card-body">
+        {% if not file.directory %}
+        <a href="{{ url_for('download_view', filepath=join(path, file.name)) }}">
+        {% else %}
+        <a href="{{ url_for('files_list_view', directory=join(path, file.name)) }}">
+        {% endif %}
+            {{ file.name }}
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
