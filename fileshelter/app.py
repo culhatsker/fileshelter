@@ -7,9 +7,11 @@ from file_access import FileAccess
 app = Flask(__name__)
 file_api = FileAccess("./files")
 
+
 @app.route("/")
 def root_view():
     return redirect(url_for("files_list_view"))
+
 
 @app.route("/files", defaults={"directory": ""})
 @app.route("/files/", defaults={"directory": ""})
@@ -23,9 +25,11 @@ def files_list_view(directory):
         normpath=os.path.normpath
     )
 
+
 @app.route("/internal/download/<path:filepath>")
 def download_view(filepath):
     return send_file(file_api.get_file(filepath))
+
 
 @app.route("/internal/upload", defaults={"directory": ""}, methods=["POST"])
 @app.route("/internal/upload/", defaults={"directory": ""}, methods=["POST"])
@@ -34,10 +38,12 @@ def upload_view(directory):
     file_api.save_file(directory, request.files["file"])
     return redirect(url_for("files_list_view", directory=directory))
 
+
 @app.route("/internal/create_directory", methods=["POST"])
 def create_directory_view():
     file_api.make_dir(request.form["directory"])
     return redirect(url_for("files_list_view", directory=directory))
+
 
 @app.route("/internal/move", methods=["POST"])
 def move_file_view():
