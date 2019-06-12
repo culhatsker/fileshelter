@@ -41,29 +41,19 @@ def upload_view(directory):
 
 @app.route("/internal/create_directory", methods=["POST"])
 def create_directory_view():
-    file_api.make_dir(request.form["directory"])
-    return redirect(url_for("files_list_view", directory=directory))
+    directory = request.form["directory"]
+    new_dir = file_api.make_dir(directory, request.form['working_directory'])
+    return redirect(url_for("files_list_view", directory=new_dir))
 
 
 @app.route("/internal/move", methods=["POST"])
 def move_file_view():
-    directory = request.form["working_directory"]
-    source_path = request.form["source_path"]
-    source_abspath = os.path.abspath(
-        os.path.join(files_dir, directory, source_path)
+    moved_to = file_api.move_file(
+        request.form["source_path"],
+        request.form["destination_path"],
+        request.form["working_directory"]
     )
-    if not source_abspath.startswith(files_dir):
-        raise Exception("Can't access source filepath")
-    if not os.path.isfile(source_abspath):
-        raise Exception("Source file doesn't exist")
-    destination_path = request.form["destination_path"]
-    destination_abspath = os.path.abspath(
-        os.path.join(files_dir, directory, destination_path)
-    )
-    if not destination_abspath.startswith(files_dir):
-        raise Exception("Can't access destination filepath")
-    shutil.move(source_abspath, destination_abspath)
-    return redirect(url_for("files_list_view", directory=directory))
+    return redirect(url_for("files_list_view", directory=moved_to))
 
 
 if __name__ == "__main__":
