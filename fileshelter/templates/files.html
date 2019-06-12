@@ -22,6 +22,24 @@
         </form>
     </div>
 </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% if path != '' %}
+        <li class="breadcrumb-item"><a href="{{ url_for('files_list_view', directory='') }}">root</a></li>
+        {% else %}
+        <li class="breadcrumb-item active" aria-current="page">root</li>
+        {% endif %}
+        {% set folders = path.split('/') %}
+        {% set path_len = folders | length %}
+        {% for index in range(path_len) %}
+            {% if index != path_len - 1 %}
+        <li class="breadcrumb-item"><a href="{{ url_for('files_list_view', directory=join(path[0], path[1:index])) }}">{{ folders[index] }}</a></li>
+            {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{ folders[index] }}</li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
 {% if path != '' %}
 <div class="card">
     <div class="card-body">
