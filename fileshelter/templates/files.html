@@ -22,12 +22,12 @@
         </form>
     </div>
 </div>
-<nav aria-label="breadcrumb">
+<nav>
     <ol class="breadcrumb">
         {% if path != '' %}
         <li class="breadcrumb-item"><a href="{{ url_for('files_list_view', directory='') }}">root</a></li>
         {% else %}
-        <li class="breadcrumb-item active" aria-current="page">root</li>
+        <li class="breadcrumb-item active">root</li>
         {% endif %}
         {% set folders = path.split('/') %}
         {% set path_len = folders | length %}
