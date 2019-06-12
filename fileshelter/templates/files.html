@@ -14,6 +14,11 @@
             <input type="text" name="directory" placeholder="directory name"/>
             <input type="submit" value="create directory" />
         </form>
+        <form action="{{ url_for('move_file_view', directory=path) }}" method="post">
+            <input type="text" name="source_path" placeholder="source path"/>
+            <input type="text" name="destination_path" placeholder="destination path"/>
+            <input type="submit" value="move file" />
+        </form>
     </div>
 </div>
 {% if path != '' %}
