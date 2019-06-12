@@ -63,8 +63,9 @@ def create_directory_view():
     os.makedirs(absdir)
     return redirect(url_for("files_list_view", directory=directory))
 
-@app.route("/internal/move/<path:directory>", methods=["POST"])
-def move_file_view(directory):
+@app.route("/internal/move", methods=["POST"])
+def move_file_view():
+    directory = request.form["working_directory"]
     source_path = request.form["source_path"]
     source_abspath = os.path.abspath(
         os.path.join(files_dir, directory, source_path)
