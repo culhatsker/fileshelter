@@ -1,4 +1,5 @@
 import os
+import shutil
 from flask import Flask, redirect, url_for, render_template, send_file, request
 
 app = Flask(__name__)
@@ -61,6 +62,27 @@ def create_directory_view():
         raise Exception("Can't access this path")
     os.makedirs(absdir)
     return redirect(url_for("files_list_view", directory=directory))
+
+@app.route("/internal/move", methods=["POST"])
+def move_file_view():
+    directory = request.form["working_directory"]
+    source_path = request.form["source_path"]
+    source_abspath = os.path.abspath(
+        os.path.join(files_dir, directory, source_path)
+    )
+    if not source_abspath.startswith(files_dir):
+        raise Exception("Can't access source filepath")
+    if not os.path.isfile(source_abspath):
+        raise Exception("Source file doesn't exist")
+    destination_path = request.form["destination_path"]
+    destination_abspath = os.path.abspath(
+        os.path.join(files_dir, directory, destination_path)
+    )
+    if not destination_abspath.startswith(files_dir):
+        raise Exception("Can't access destination filepath")
+    shutil.move(source_abspath, destination_abspath)
+    return redirect(url_for("files_list_view", directory=directory))
+
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080, debug=True)
