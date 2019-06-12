@@ -63,24 +63,24 @@ def create_directory_view():
     os.makedirs(absdir)
     return redirect(url_for("files_list_view", directory=directory))
 
-@app.route("/internal/move", methods=["POST"])
-def move_file_view():
+@app.route("/internal/move/<path:directory>", methods=["POST"])
+def move_file_view(directory):
     source_path = request.form["source_path"]
     source_abspath = os.path.abspath(
-        os.path.join(files_dir, source_path)
-        )
+        os.path.join(files_dir, directory, source_path)
+    )
     if not source_abspath.startswith(files_dir):
         raise Exception("Can't access source filepath")
     if not os.path.isfile(source_abspath):
         raise Exception("Source file doesn't exist")
     destination_path = request.form["destination_path"]
     destination_abspath = os.path.abspath(
-        os.path.join(files_dir, destination_path)
-        )
+        os.path.join(files_dir, directory, destination_path)
+    )
     if not destination_abspath.startswith(files_dir):
         raise Exception("Can't access destination filepath")
     shutil.move(source_abspath, destination_abspath)
-    return redirect(url_for("files_list_view"))
+    return redirect(url_for("files_list_view", directory=directory))
 
 
 if __name__ == "__main__":
