@@ -11,6 +11,7 @@
             <input type="submit" value="send nudes" />
         </form>
         <form action="{{ url_for('create_directory_view', directory=path) }}" method="post">
+            <input type="hidden" name="working_directory" value="{{ path }}" />
             <input type="text" name="directory" placeholder="directory name" />
             <input type="submit" value="create directory" />
         </form>
