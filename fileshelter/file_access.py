@@ -18,7 +18,7 @@ class FileAccess:
     @staticmethod
     def _join_to_workdir(workdir, path):
         new_path = os.path.join(workdir, path)
-        if path.startswith("/"):
+        if new_path.startswith("/"):
             return new_path[1:]
         return new_path
 
