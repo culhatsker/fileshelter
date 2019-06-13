@@ -5,10 +5,6 @@ import sys
 import shutil
 from uuid import uuid4
 
-# sys.path.append(os.path.abspath(
-#     os.path.join(os.path.dirname(__file__), "../fileshelter")
-# ))
-
 @fixture(scope="session")
 def global_tests_dir():
     dir_path = os.path.abspath("./.test-tmp-{}".format(uuid4()))
