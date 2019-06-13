@@ -2,10 +2,11 @@ FROM python:3.7-alpine
 
 RUN mkdir /var/app
 
-COPY requirements.txt /var/app
+COPY requirements.txt /var/app/requirements.txt
 
 RUN python -m pip install -r /var/app/requirements.txt
 
-COPY fileshelter /var/app
+COPY fileshelter /var/app/fileshelter
 
-CMD python /var/app/app.py
+WORKDIR /var/app
+CMD python fileshelter/app.py
