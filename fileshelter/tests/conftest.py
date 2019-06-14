@@ -1,7 +1,6 @@
 from pytest import fixture
 
 import os
-import sys
 import shutil
 from uuid import uuid4
 

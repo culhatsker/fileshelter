@@ -144,3 +144,23 @@ def test_fa_get_file_raises(test_dir):
     fa = FileAccess(test_dir)
     with raises(FileAccessError):
         fa.get_file("../file1.txt")
+
+
+@mark.parametrize("frompath,topath,workdir,expectdir,expectname", [
+    ("alpha.txt", "subdir", "", "subdir", "alpha.txt"),
+    ("alpha.txt", "alpha_new.txt", "", "", "alpha_new.txt"),
+    ("../alpha.txt", "", "subdir", "subdir", "alpha.txt"),
+])
+def test_fa_move_file_simple_case(file_api: FileAccess, frompath, topath, workdir, expectdir, expectname):
+    file_api.move_file(frompath, topath, workdir)
+    assert {"name": expectname, "directory": False} in file_api.list_directory(expectdir)
+
+
+@mark.parametrize("frompath,topath", [
+    ("../file1.txt", ""),
+    ("file1.txt", ".."),
+    ("subdir", "")
+])
+def test_fa_move_file_raises(file_api, frompath, topath):
+    with raises(FileAccessError):
+        file_api.move_file(frompath, topath, "")
