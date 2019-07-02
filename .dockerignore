@@ -1,0 +1,8 @@
+# PyTest
+.pytest_cache
+
+# Microsoft Visual Studio Code
+.vscode
+
+# Python cache
+__pycache__/
