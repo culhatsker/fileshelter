@@ -7,3 +7,8 @@ steps:
   commands:
   - python -m pip install -r requirements.txt
   - pytest --cov --cov-config=.coveragerc
+- name: check_image
+  image: "docker:18.09.7"
+  commands:
+  - docker build -t fileshelter .
+  - docker run fileshelter pytest --cov --cov-config=.coveragerc
