@@ -24,7 +24,6 @@
                     Be careful sending big files. Browser may be blocked while uploading them.
                 </p>
                 <form id="uploadForm" action="{{ url_for('upload_view', directory=path) }}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="path" id="upload-path" value="{{ path }}"/>
                     <input type="file" name="file" id="uploadFiles" multiple/>
                 </form>
             </div>
