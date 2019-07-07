@@ -35,7 +35,8 @@ def download_view(filepath):
 @app.route("/internal/upload/", defaults={"directory": ""}, methods=["POST"])
 @app.route("/internal/upload/<path:directory>", methods=["POST"])
 def upload_view(directory):
-    file_api.save_file(directory, request.files["file"])
+    for file in request.files.getlist("file"):
+        file_api.save_file(directory, file)
     return redirect(url_for("files_list_view", directory=directory))
 
 
