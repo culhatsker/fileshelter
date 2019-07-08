@@ -5,7 +5,7 @@ from flask import Flask, redirect, url_for, render_template, send_file, request
 from file_access import FileAccess
 
 app = Flask(__name__)
-file_api = FileAccess("./files")
+file_api = FileAccess("./local_storage")
 
 
 @app.route("/")

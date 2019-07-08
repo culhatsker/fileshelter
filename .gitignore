@@ -107,4 +107,4 @@ venv.bak/
 .vscode
 
 # local filestorage
-files
+local_storage
