@@ -17,10 +17,11 @@ def root_view():
 @app.route("/files/", defaults={"directory": ""})
 @app.route("/files/<path:directory>")
 def files_list_view(directory):
+    sorted_files = sorted(file_api.list_directory(directory), key=lambda f: (not f['directory'], f['name']))
     return render_template(
         "files.html",
         path=directory,
-        files=file_api.list_directory(directory),
+        files=sorted_files,
         join=os.path.join,
         normpath=os.path.normpath
     )
